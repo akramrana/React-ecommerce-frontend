@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+    <title>Dressly</title>
+    <script src="%PUBLIC_URL%/js/jquery-3.2.1.slim.min.js"></script>
+    <link href='http://fonts.googleapis.com/css?family=Poppins' rel='stylesheet' type='text/css'>
+    <style type="text/css">
+      .global-loader {
+          position: fixed;
+          width: 100%;
+          height: 100%;
+          top: 0;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          background: rgba(255, 255, 255, 0.5);
+          z-index: 9999;
+          display: none;
+      }
+
+      .global-loader .main-content {
+          margin: 0 auto;
+          width: 100px;
+      }
+
+      .global-loader .main-content .loading {
+          position: absolute;
+          top: 40%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>

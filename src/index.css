@@ -1,0 +1,118 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+}
+.dropdown-menu{
+	font-size: 14px;
+}
+.owl-carousel img, .container .col-4 img{
+	border: 1px solid #ccc;
+	min-height: 261px;
+	min-width: 175px;
+}
+.col-3 .product-image a img,.product-image a img{
+	width: 100%;
+	height: 261px;
+	border: 1px solid #ccc;
+}
+a{
+	color:#333;
+}
+a:hover{
+	text-decoration: none;
+}
+ul.product-filters{
+	text-align: left;
+  padding-left:0 
+}
+ul.product-filters li{
+	list-style-type: none;
+}
+ul.product-filters li .filter-heading{
+	border-bottom: 1px solid #ccc;
+	margin-bottom: 10px;
+}
+ul.product-filters li .filter-att{
+	max-height: 240px;
+	overflow: auto;
+	margin-bottom: 20px;
+}
+.form-control{
+	border-radius: 0px;
+}
+.btn{
+	border-radius: 0px;
+}
+.cart-badge{
+	top: -5px;
+	position: absolute;;
+}
+.react-datepicker-wrapper{
+	width: 100%;
+}
+.react-autosuggest__container {
+  position: relative;
+}
+
+.react-autosuggest__input {
+
+  height: 30px;
+  padding: 10px 20px;
+  font-family: Helvetica, sans-serif;
+  font-weight: 300;
+  font-size: 16px;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+}
+
+.react-autosuggest__input--focused {
+  outline: none;
+}
+
+.react-autosuggest__input--open {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.react-autosuggest__suggestions-container {
+  display: none;
+}
+
+.react-autosuggest__suggestions-container--open {
+  display: block;
+  position: absolute;
+  top: 51px;
+  width: 280px;
+  border: 1px solid #aaa;
+  background-color: #fff;
+  font-family: Helvetica, sans-serif;
+  font-weight: 300;
+  font-size: 16px;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+  z-index: 2;
+}
+
+.react-autosuggest__suggestions-list {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+.react-autosuggest__suggestion {
+  cursor: pointer;
+  padding: 10px 20px;
+}
+
+.react-autosuggest__suggestion--highlighted {
+  background-color: #ddd;
+}
+.bg-light{
+  padding-left: 0px;
+  margin-bottom: 10px;
+}
+.bg-light .navbar-nav{
+  padding-left: 10px;
+}
