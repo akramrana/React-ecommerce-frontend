@@ -25,6 +25,7 @@ import MyAccount from './components/MyAccount';
 import MyAddress from './components/MyAddress';
 import Profile from './components/Profile';
 import ChangePassword from './components/ChangePassword';
+import ForgotPassword from './components/ForgotPassword';
 
 
 //window.jQuery = $;
@@ -53,6 +54,7 @@ const routing = (
 	      <Route path="/profile" component={Profile} />
 	      <Route path="/change-password" component={ChangePassword} />
 	      <Route path="/products/search" component={Products} />
+	      <Route path="/forgot-password" component={ForgotPassword} />
 	      <Route component={Notfound} />
       </Switch>
     </Router>

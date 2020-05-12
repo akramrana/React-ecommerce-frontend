@@ -39,7 +39,7 @@ class MyAccount extends Component {
 				}
 				let loader = new Loader();
 				loader.show();
-				fetch(Web.BaseUrl+"api/v1/user-orders?user_id="+userinfo.id+"&lang=en&store=KW",{
+				fetch(Web.BaseUrl+"api/v1/user-orders?user_id="+userinfo.id+"&lang=en&store=BD",{
 			  	  method: 'GET',
 				  headers: { 'Content-Type': 'application/json' },
 				}).then(res => res.json())

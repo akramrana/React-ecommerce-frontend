@@ -10,6 +10,8 @@ import { Button, Modal } from 'react-bootstrap';
 import swal from 'sweetalert';
 import CartService from '../services/CartService';
 import LoginService from '../services/LoginService';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faShoppingCart, faHeart } from '@fortawesome/free-solid-svg-icons';
 
 
 class ProductDetails extends Component {
@@ -50,7 +52,7 @@ class ProductDetails extends Component {
 		var product_id = params.id;
 		let loader = new Loader();
 		loader.show();
-		fetch(Web.BaseUrl+"api/v1/product-details?product_id="+product_id+"&store=KW")
+		fetch(Web.BaseUrl+"api/v1/product-details?product_id="+product_id+"&store=BD")
 	      .then(res => res.json())
 	      .then(
 	        (result) => {
@@ -246,7 +248,7 @@ class ProductDetails extends Component {
 	}
 
 	addToCart(cartParams){
-		fetch(Web.BaseUrl+"api/v1/add-to-cart?lang=en&store=KW",{
+		fetch(Web.BaseUrl+"api/v1/add-to-cart?lang=en&store=BD",{
 		  	  method: 'POST',
 			  headers: { 'Content-Type': 'application/json' },
 			  body: JSON.stringify(cartParams),
@@ -343,7 +345,7 @@ class ProductDetails extends Component {
 			product_id:product_id
 		}
 
-		fetch(Web.BaseUrl+"api/v1/configurable-options?lang=en&store=KW",{
+		fetch(Web.BaseUrl+"api/v1/configurable-options?lang=en&store=BD",{
 		  	  method: 'POST',
 			  headers: { 'Content-Type': 'application/json' },
 			  body: JSON.stringify(postParams),
@@ -384,7 +386,7 @@ class ProductDetails extends Component {
 			    images.push(d)
 			});
 			return (
-				<ImageGallery items={images} showFullscreenButton={false} showPlayButton={false}/>
+				<ImageGallery items={images} showFullscreenButton={false} showPlayButton={false} thumbnailPosition={'left'}/>
 			)
 		}
 	}
@@ -530,14 +532,14 @@ class ProductDetails extends Component {
 		              			})}
 			            	   <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 			            	   		<div className="row">
-			            	   			<div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+			            	   			<div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 			            	   			    <div className="input-group mb-3">
 			            	   			    	<div className="input-group-append">
 												    <div className="mr-2">
-												    	<button onClick={this.handleAddToCartClick.bind(this)} className="btn btn-info">Add to cart</button>
+												    	<button onClick={this.handleAddToCartClick.bind(this)} className="btn btn-info"><FontAwesomeIcon icon={faShoppingCart} /> Add to cart</button>
 												    </div>
 												    <div>
-												    	<button className="btn btn-success">Wish List</button>
+												    	<button className="btn btn-light"><FontAwesomeIcon icon={faHeart} /> Wish List</button>
 												    </div>
 												</div>
 											</div>

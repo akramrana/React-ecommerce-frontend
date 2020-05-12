@@ -8,7 +8,9 @@ import CartService from '../services/CartService';
 import LoginService from '../services/LoginService';
 import swal from 'sweetalert';
 import { Button, Modal } from 'react-bootstrap';
-import { Redirect } from 'react-router-dom'
+import { Redirect } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrashAlt} from '@fortawesome/free-solid-svg-icons';
 
 class Cart extends Component {
 
@@ -98,6 +100,12 @@ class Cart extends Component {
 				   })
 				});
 
+				this.cartService.getCartItems().then((items) => {
+				   this.setState({
+				   	   cartItems:items,
+				   })
+				});
+
 				this.cartService.getCartTotal().then((cartTotal) => {
 					this.setState({
 				   	   cartTotal:cartTotal,
@@ -170,7 +178,7 @@ class Cart extends Component {
 	}
 
 	updateCart(cartParams){
-		fetch(Web.BaseUrl+"api/v1/update-cart?lang=en&store=KW",{
+		fetch(Web.BaseUrl+"api/v1/update-cart?lang=en&store=BD",{
 		  	  method: 'POST',
 			  headers: { 'Content-Type': 'application/json' },
 			  body: JSON.stringify(cartParams),
@@ -218,7 +226,7 @@ class Cart extends Component {
 	}
 
 	deleteCart(cartParams){
-		fetch(Web.BaseUrl+"api/v1/delete-from-cart?lang=en&store=KW",{
+		fetch(Web.BaseUrl+"api/v1/delete-from-cart?lang=en&store=BD",{
 		  	  method: 'POST',
 			  headers: { 'Content-Type': 'application/json' },
 			  body: JSON.stringify(cartParams),
@@ -371,7 +379,7 @@ class Cart extends Component {
 
 
 	addToCart(cartParams){
-		fetch(Web.BaseUrl+"api/v1/add-to-cart?lang=en&store=KW",{
+		fetch(Web.BaseUrl+"api/v1/add-to-cart?lang=en&store=BD",{
 		  	  method: 'POST',
 			  headers: { 'Content-Type': 'application/json' },
 			  body: JSON.stringify(cartParams),
@@ -463,6 +471,7 @@ class Cart extends Component {
     }
 
 	render(){
+		let currency_code = "";
 		return (
       	  <div>
 	         {this.renderHeader()}
@@ -475,6 +484,7 @@ class Cart extends Component {
 	                   <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 	                        {this.state.cartItems.map((value, index) => {
 	                        	let subtotal = (value.qty*value.final_price).toFixed(3);
+	                        	currency_code = value.currency_code;
 		                   		return(
 		                   			<div className="row  mb-3" key={index}>
 			                   			<div className="col d-none d-sm-none d-sm-block product-image">
@@ -502,7 +512,7 @@ class Cart extends Component {
 									    	<b>{value.currency_code} </b>{subtotal}
 									    </div>
 									    <div className="col text-right">
-									      <a onClick={this.handleRemoveFromCart.bind(this,value.product_id)} href="#" className="btn btn-xs btn-danger">x</a>
+									      <a onClick={this.handleRemoveFromCart.bind(this,value.product_id)} href="#" className="btn btn-xs btn-light"><FontAwesomeIcon icon={faTrashAlt} /></a>
 									    </div>
 			                   		</div>
 		                   		)
@@ -521,7 +531,7 @@ class Cart extends Component {
 									</div>
 									<div className="row">
 									    <div className="col-md-4 offset-md-8 text-left">
-									    	Total <span className="float-right"><b>KD </b> {this.state.cartTotal}</span>
+									    	Total <span className="float-right"><b>{currency_code} </b> {this.state.cartTotal}</span>
 									    </div>
 									</div>
 									<div className="row">
@@ -572,6 +582,9 @@ class Cart extends Component {
 							  </div>
 						</div>
 						<input className="btn btn-info mb-3" type="submit" onClick={e => this.handleFormSubmit(e)} value="Submit" />
+						<span className="ml-3">
+							<a href="/forgot-password">Forgot Password ?</a>
+						</span>
 		            </form>
 		        </Modal.Body>
 		      </Modal>

@@ -30,14 +30,21 @@ ul.product-filters{
 ul.product-filters li{
 	list-style-type: none;
 }
-ul.product-filters li .filter-heading{
-	border-bottom: 1px solid #ccc;
-	margin-bottom: 10px;
+.filter-heading{
+	border: 1px solid #ccc;
+  padding: 10px;
 }
-ul.product-filters li .filter-att{
-	max-height: 240px;
-	overflow: auto;
+.filter-heading h6{
+  margin-bottom: 0px;
+}
+ul.product-filters li .filter-att,.filter-att{
+	/*max-height: 240px;
+	overflow: hidden;*/
 	margin-bottom: 20px;
+  border-bottom: 1px solid #ccc;
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+  padding: 10px;
 }
 .form-control{
 	border-radius: 0px;

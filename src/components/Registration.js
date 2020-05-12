@@ -101,6 +101,9 @@ class Registration extends Component {
 	  event.preventDefault();
 	   if(this.handleValidation()){
 		  //console.log(this.state);
+		  let loader = new Loader();
+		  loader.show();
+
 		  let formData = {
 		  	first_name: this.state.first_name,
 		    last_name: this.state.last_name,
@@ -116,7 +119,8 @@ class Registration extends Component {
 		  }).then(res => res.json())
 		      .then(
 		        (result) => {
-		        	console.log(result);
+		        	loader.hide();
+		        	//console.log(result);
 		        	let serverErrors = {};
 		        	if(result.status==406){
 		        		serverErrors["email"] = result.message;
@@ -125,8 +129,8 @@ class Registration extends Component {
 		        		});
 		        	}
 		        	if(result.status==200){
+		        		this.showSuccessAlert("",result.message,"success");
 		        		this.setState({
-		        			success:result.message,
 		        			first_name: '',
 						    last_name: '',
 						    email: '',
@@ -139,6 +143,7 @@ class Registration extends Component {
 		        // instead of a catch() block so that we don't swallow
 		        // exceptions from actual bugs in components.
 		        (error) => {
+		          loader.hide();
 		          this.setState({
 		            isLoaded: true,
 		            error
@@ -148,6 +153,16 @@ class Registration extends Component {
 	  	}
 	}
 
+	showSuccessAlert(title,msg, icon){
+		return swal({
+          title:title,
+          text: msg,
+          icon: icon,
+          timer: 2000,
+          button: false
+        })
+	}
+
 	render(){
 		return (
 			<div>
@@ -155,7 +170,6 @@ class Registration extends Component {
 	         <div id="content" className="container">
 	         	<div className="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
 	              <h1 className="display-4">Registration</h1>
-	              <div className="text-success">{this.state.success}</div>
 	            </div>
 
 				<form action="#">

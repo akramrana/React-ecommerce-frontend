@@ -58,7 +58,7 @@ class MyAddress extends Component {
 				}
 				let loader = new Loader();
 				loader.show();
-				fetch(Web.BaseUrl+"api/v1/user-address?user_id="+userinfo.id+"&lang=en&store=KW",{
+				fetch(Web.BaseUrl+"api/v1/user-address?user_id="+userinfo.id+"&lang=en&store=BD",{
 			  	  method: 'GET',
 				  headers: { 'Content-Type': 'application/json' },
 				}).then(res => res.json())
@@ -277,7 +277,7 @@ class MyAddress extends Component {
 		        	loader.hide();
 		        	if(result.status==200){
 		        	    this.showSuccessAlert("","Address successfully updated!", "success");
-		        	    fetch(Web.BaseUrl+"api/v1/user-address?user_id="+this.state.userData.id+"&lang=en&store=KW",{
+		        	    fetch(Web.BaseUrl+"api/v1/user-address?user_id="+this.state.userData.id+"&lang=en&store=BD",{
 					  	  method: 'GET',
 						  headers: { 'Content-Type': 'application/json' },
 						}).then(res => res.json())
@@ -387,7 +387,7 @@ class MyAddress extends Component {
 	        	loader.hide();
 	        	if(result.status==200){
 	        	    this.showSuccessAlert("","Address successfully deleted!", "success");
-	        	    fetch(Web.BaseUrl+"api/v1/user-address?user_id="+this.state.userData.id+"&lang=en&store=KW",{
+	        	    fetch(Web.BaseUrl+"api/v1/user-address?user_id="+this.state.userData.id+"&lang=en&store=BD",{
 				  	  method: 'GET',
 					  headers: { 'Content-Type': 'application/json' },
 					}).then(res => res.json())

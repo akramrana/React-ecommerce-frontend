@@ -45,7 +45,7 @@ class OrderDetails extends Component {
 				var order_id = params.id;
 				let loader = new Loader();
 				loader.show();
-				fetch(Web.BaseUrl+"api/v1/order-details?lang=en&id="+order_id+"&user_id="+this.state.userData.id+"&store=kw",{
+				fetch(Web.BaseUrl+"api/v1/order-details?lang=en&id="+order_id+"&user_id="+this.state.userData.id+"&store=BD",{
 			  	  method: 'GET',
 				  headers: { 'Content-Type': 'application/json' },
 			  	}).then(res => res.json())

@@ -7,6 +7,8 @@ import Web from '../config/Web'
 import DB from '../helpers/DB';
 import CartService from '../services/CartService';
 import LoginService from '../services/LoginService';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus,faMinus } from '@fortawesome/free-solid-svg-icons';
 
 class Products extends Component {
 
@@ -71,7 +73,7 @@ class Products extends Component {
 		let vars = query.split("=");
 		let q = vars[1]?vars[1]:"";
 
-	    fetch(Web.BaseUrl+"api/v1/search?q="+q+"&lang=en&category_id="+category_id+"&attribute_id=&brand_id="+brand_id+"&shop_id="+shop_id+"&collection_id=&price_range=&in_stock=&page="+page+"&per_page="+per_page+"&is_featured=&latest=&best_selling=&sort_by=1&store=KW",{
+	    fetch(Web.BaseUrl+"api/v1/search?q="+q+"&lang=en&category_id="+category_id+"&attribute_id=&brand_id="+brand_id+"&shop_id="+shop_id+"&collection_id=&price_range=&in_stock=&page="+page+"&per_page="+per_page+"&is_featured=&latest=&best_selling=&sort_by=1&store=BD",{
 	    	method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify(postParam),
@@ -225,23 +227,28 @@ class Products extends Component {
 	              <div className="row">
 	                   <div className="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12">
 		                  <div>
-		                      <ul className="product-filters">
-		                      	  {this.state.subcategory.map((value, index) => {
-		                      	  	  var name = value.name.replace(/\s+/g, '-').toLowerCase();
-		                      	  	  return(
-		                      	  	  	 <li key={index}>
-		                      	  	  	 	<a href={'/products/category/'+value.id+'/'+name}>{value.name}</a>
-		                      	  	  	 </li>
-		                      	  	  )
-		                      	  })}
-		                      </ul>
+		                      <div className="filter-heading">
+		                      	<h6 className="text-left">Categories </h6>
+		                      </div>
+		                      <div className="filter-att">
+			                      <ul className="product-filters">
+			                      	  {this.state.subcategory.map((value, index) => {
+			                      	  	  var name = value.name.replace(/\s+/g, '-').toLowerCase();
+			                      	  	  return(
+			                      	  	  	 <li key={index}>
+			                      	  	  	 	<a href={'/products/category/'+value.id+'/'+name}>{value.name}</a>
+			                      	  	  	 </li>
+			                      	  	  )
+			                      	  })}
+			                      </ul>
+		                      </div>
 	                      </div>
 	                      <ul className="product-filters">
 	                      		{this.state.filter.map((value, index) => {
 	                      			return (
 	                      				<li key={index}>
 	                      					<div className="filter-heading">
-		                      			 		<h5>{value.filter_name}</h5>
+		                      			 		<h6>Filter by {value.filter_name} </h6>
 		                      			 	</div>
 		                      			 	<div className="filter-att">
 		                      			 		<div>
@@ -265,7 +272,6 @@ class Products extends Component {
 	                      			)
 	                      		})}
 				                <li>
-				                    <hr/>
 				                	<a href="#" onClick={this.resetFilter.bind(this)}><b>Reset Filter</b></a>
 				                </li>
 	                      </ul>
@@ -273,7 +279,7 @@ class Products extends Component {
 	                   <div className="col-xl-9 col-lg-9 col-md-9 col-sm-12 col-12">
 	                   		<div className="row">
 	                   			{this.state.products.map((value, index) => {
-							        return <div className="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12" key={index}>
+							        return <div className="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-6" key={index}>
 							                    <div className="product-image">
 								                    <a href={this.renderHrefUrl(value.id,value.name)}>
 								        				<img src={value.image} alt={value.name}/>

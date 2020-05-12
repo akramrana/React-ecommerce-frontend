@@ -130,7 +130,7 @@ class Login extends Component {
 								"quantity":qtyArr.join()
 							}
 							if(qtyArr && qtyArr.length){
-								fetch(Web.BaseUrl+"api/v1/add-to-cart?lang=en&store=KW",{
+								fetch(Web.BaseUrl+"api/v1/add-to-cart?lang=en&store=BD",{
 								  	  method: 'POST',
 									  headers: { 'Content-Type': 'application/json' },
 									  body: JSON.stringify(cartParams),
@@ -173,7 +173,7 @@ class Login extends Component {
 								        }
 								)
 							}else{
-								fetch(Web.BaseUrl+"api/v1/cart-items?lang=en&user_id="+result.data.id+"&store=KW")
+								fetch(Web.BaseUrl+"api/v1/cart-items?lang=en&user_id="+result.data.id+"&store=BD")
 							      .then(res => res.json())
 							      .then(
 							        (result_cart) => {
@@ -234,10 +234,6 @@ class Login extends Component {
 	  }
 	}
 
-	addToCart(cartParams){
-		
-	}
-
 	render(){
 
 	   if(this.state.userData && this.state.userData.id){
@@ -276,6 +272,9 @@ class Login extends Component {
 									</div>
 								</div>
 								<input className="btn btn-info mb-3" type="submit" onClick={e => this.handleFormSubmit(e)} value="Submit" />
+								<span className="ml-3">
+									<a href="/forgot-password">Forgot Password ?</a>
+								</span>
 				            </form>
 			         </div>
 			         <Footer />

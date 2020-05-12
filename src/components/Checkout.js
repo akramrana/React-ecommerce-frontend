@@ -46,7 +46,11 @@ class Checkout extends Component {
   			cod_cost:0,
   			vat_charge:0,
   			paymentTypes:[],
-  			pay_method:"C"
+  			pay_method:"C",
+  			baseCurrencyName:"",
+  			promo_code:"",
+  			order_total:0,
+  			discount_price:0,
 	    };
 	    this.db = new DB();
 	    this.cartService = new CartService(this.db); 
@@ -109,7 +113,7 @@ class Checkout extends Component {
 				"user_id":this.state.userData.id,
 				"order_id":orderId
 			}
-			fetch(Web.BaseUrl+"api/v1/check-item-stock?lang=en&store=KW",{
+			fetch(Web.BaseUrl+"api/v1/check-item-stock?lang=en&store=BD",{
 			  	  method: 'POST',
 				  headers: { 'Content-Type': 'application/json' },
 				  body: JSON.stringify(checkItemStockParams),
@@ -131,9 +135,9 @@ class Checkout extends Component {
 				        let cod_cost = parseFloat(cod).toFixed(3);
 
 			        	this.setState({
-					   	   paymentTypes:result.data.payment_types?result.data.payment_types:[],
-					   	   cartItems:result.data.cart.items?result.data.cart.items:[],
-					   	   shippingAddrss:result.data.default_address?result.data.default_address:{},
+					   	    paymentTypes:result.data.payment_types?result.data.payment_types:[],
+					   	    cartItems:result.data.cart.items?result.data.cart.items:[],
+					   	    shippingAddrss:result.data.default_address?result.data.default_address:{},
 				            countries:result.data.country_list?result.data.country_list:[],
 				            first_name:result.data.default_address?result.data.default_address.first_name:"",
 				            last_name:result.data.default_address?result.data.default_address.last_name:"",
@@ -150,7 +154,10 @@ class Checkout extends Component {
 				            shipping_cost:shipping_price,
 				            cod_cost:cod_cost,
 				            vat_charge:result.data.default_address?result.data.default_address.val:0,
-				            cartTotal:result.data.sub_total?result.data.sub_total:0
+				            cartTotal:result.data.sub_total?result.data.sub_total:0,
+				            order_total:result.data.sub_total?result.data.total:0,
+				            discount_price:result.data.discount_price?result.data.discount_price:0,
+				            baseCurrencyName:result.data.baseCurrencyName?result.data.baseCurrencyName:"",
 					   })
 			        },
 			        (error) => {
@@ -580,7 +587,7 @@ class Checkout extends Component {
 			if(this.state.shippingAddrss.address_id){
 				let loader = new Loader();
 				loader.show();
-				fetch(Web.BaseUrl+"api/v1/checkout?lang=en&store=KW",{
+				fetch(Web.BaseUrl+"api/v1/checkout?lang=en&store=BD",{
 				  	  method: 'POST',
 					  headers: { 'Content-Type': 'application/json' },
 					  body: JSON.stringify(checkoutParams),
@@ -615,8 +622,44 @@ class Checkout extends Component {
         })
 	}
 
+	applyPromo(e){
+		e.preventDefault();
+		let errors = {};
+		if(!this.state.promo_code){
+           errors["promo_code"] = "Enter discount code";
+           this.setState({errors: errors});
+        }else{
+        	this.cartService.getOrderId().then((orderId) => {
+	        	let loader = new Loader();
+				loader.show();
+				var checkItemStockParams = {
+					"user_id":this.state.userData.id,
+					"order_id":orderId,
+					"coupon_code":this.state.promo_code,
+					"shipping_address_id":this.state.shippingAddrss.address_id,
+				}
+				fetch(Web.BaseUrl+"api/v1/redeem-coupon?lang=en&store=BD",{
+				  	  method: 'POST',
+					  headers: { 'Content-Type': 'application/json' },
+					  body: JSON.stringify(checkItemStockParams),
+				}).then(res => res.json())
+				      .then(
+				        (result) => {
+				        	console.log(result);
+				        	loader.hide();
+				        	
+				        },
+				        (error) => {
+				        	loader.hide();
+				            console.log(error);
+				        }
+				)
+			});
+        }
+	}
+
 	render(){
-	 	let grand_total = parseFloat(this.state.cartTotal)+parseFloat(this.state.cod_cost)+parseFloat(this.state.shipping_cost);
+	 	let grand_total = parseFloat(this.state.cartTotal)-(parseFloat(this.state.discount_price))+parseFloat(this.state.cod_cost)+parseFloat(this.state.shipping_cost);
 	 	let gt = parseFloat(grand_total).toFixed(3)
 	 	
 	 	return (
@@ -705,48 +748,67 @@ class Checkout extends Component {
 					                   		)
 				                   		})}
 				                   		<div className="row">
-											<div className="col-md-4 offset-md-8 text-left">
+				                   			<div className="col-md-5 offset-md-7">
+				                   				 <div className="form-inline">
+													  <div className="form-group">
+													    <input value={this.state.promo_code}
+										    onChange={e => this.setState({ promo_code: e.target.value })} placeholder="Enter discount code!" type="text" className="form-control"/>
+
+													  </div>
+													  <button onClick={e => this.applyPromo(e)} className="btn btn-warning">Apply</button>
+													  <div className="text-danger">{this.state.errors.promo_code}</div>
+												 </div>
+				                   				 <hr/>
+				                   			</div>
+				                   		</div>
+				                   		<div className="row">
+											<div className="col-md-5 offset-md-7 text-left">
 											    <h5> Summary  </h5>
 										    </div>
 										</div>
 										<div className="row">
-										    <div className="col-md-4 offset-md-8 text-left">
+										    <div className="col-md-5 offset-md-7 text-left">
 										    	<b>Total Qty</b> <span className="float-right">{this.state.cartCount}</span>
 										    </div>
 										</div>
 										<div className="row">
-										    <div className="col-md-4 offset-md-8 text-left">
-										    	<b>Product Total</b> <span className="float-right"><b>KD </b> {this.state.cartTotal}</span>
+										    <div className="col-md-5 offset-md-7 text-left">
+										    	<b>Product Subtotal</b> <span className="float-right"><b>{this.state.baseCurrencyName} </b> {this.state.cartTotal}</span>
 										    </div>
 										</div>
 										<div className="row">
-										    <div className="col-md-4 offset-md-8 text-left">
-										    	<b>Shipping Cost</b> <span className="float-right"><b>KD </b> {this.state.shipping_cost}</span>
+										    <div className="col-md-5 offset-md-7 text-left">
+										    	<b>Discount Price</b> <span className="float-right"><b>{this.state.baseCurrencyName} </b> {this.state.discount_price}</span>
 										    </div>
 										</div>
 										<div className="row">
-										    <div className="col-md-4 offset-md-8 text-left">
-										    	<b>COD Cost</b> <span className="float-right"><b>KD </b> {this.state.cod_cost}</span>
+										    <div className="col-md-5 offset-md-7 text-left">
+										    	<b>Shipping Cost</b> <span className="float-right"><b>{this.state.baseCurrencyName} </b> {this.state.shipping_cost}</span>
 										    </div>
 										</div>
 										<div className="row">
-										    <div  className="col-md-4 offset-md-8 text-left">
+										    <div className="col-md-5 offset-md-7 text-left">
+										    	<b>COD Cost</b> <span className="float-right"><b>{this.state.baseCurrencyName} </b> {this.state.cod_cost}</span>
+										    </div>
+										</div>
+										<div className="row">
+										    <div  className="col-md-5 offset-md-7 text-left">
 												<hr/>
 											</div>
 										</div>
 										<div className="row">
-										    <div className="col-md-4 offset-md-8 text-left">
+										    <div className="col-md-5 offset-md-7 text-left">
 
-										    	<b>Grand Total</b> <span className="float-right"><b>KD </b> {gt}</span>
+										    	<b>Grand Total</b> <span className="float-right"><b>{this.state.baseCurrencyName} </b> {gt}</span>
 										    </div>
 										</div>
 										<div className="row">
-										    <div  className="col-md-4 offset-md-8 text-left">
+										    <div  className="col-md-5 offset-md-7 text-left">
 												<hr/>
 											</div>
 										</div>
 										<div className="row">
-											<div className="col-md-4 offset-md-8 text-right">
+											<div className="col-md-5 offset-md-7 text-right">
 											    <a href="/cart" className="btn btn-dark">Back</a> 
 											    <a href="#" onClick={e => this.placeOrder(e)} className="btn btn-info ml-1">Place Order</a> 
 										    </div>
