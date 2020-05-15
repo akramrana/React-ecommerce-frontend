@@ -9,6 +9,8 @@ import LoginService from '../services/LoginService';
 import swal from 'sweetalert';
 import { Redirect } from 'react-router-dom'
 import { Button, Modal } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrashAlt} from '@fortawesome/free-solid-svg-icons';
 
 class Checkout extends Component {
 
@@ -51,6 +53,8 @@ class Checkout extends Component {
   			promo_code:"",
   			order_total:0,
   			discount_price:0,
+  			coupons:{},
+  			coupon_class:"d-none"
 	    };
 	    this.db = new DB();
 	    this.cartService = new CartService(this.db); 
@@ -148,9 +152,6 @@ class Checkout extends Component {
 				            street:result.data.default_address?result.data.default_address.street:"",
 				            mobile_number:result.data.default_address?result.data.default_address.mobile_number:"",
 				            addressline_1:result.data.default_address?result.data.default_address.addressline_1:"",
-				            //states:result.data.states?result.data.states:[],
-				            //areas:result.data.areas?result.data.areas:[],
-				            //blocks:result.data.blocks?result.data.blocks:[],
 				            shipping_cost:shipping_price,
 				            cod_cost:cod_cost,
 				            vat_charge:result.data.default_address?result.data.default_address.val:0,
@@ -158,6 +159,8 @@ class Checkout extends Component {
 				            order_total:result.data.sub_total?result.data.total:0,
 				            discount_price:result.data.discount_price?result.data.discount_price:0,
 				            baseCurrencyName:result.data.baseCurrencyName?result.data.baseCurrencyName:"",
+				            coupons:result.data.coupon?result.data.coupon:{},
+				            coupon_class:result.data.coupon.code?"":"d-none",
 					   })
 			        },
 			        (error) => {
@@ -645,8 +648,49 @@ class Checkout extends Component {
 				}).then(res => res.json())
 				      .then(
 				        (result) => {
-				        	console.log(result);
+				        	//console.log(result);
 				        	loader.hide();
+				        	if(result.status==200){
+					        	let sp = result.data.default_address?result.data.default_address.shipping_cost:0;
+						        if(sp==undefined){
+						        	sp = 0;
+						        }
+						        let shipping_price = parseFloat(sp).toFixed(3);
+						        //
+						        let cod = result.data.default_address?result.data.default_address.cod_cost:0;
+						        if(cod==undefined){
+						        	cod = 0;
+						        }
+						        let cod_cost = parseFloat(cod).toFixed(3);
+
+					        	this.setState({
+							   	    paymentTypes:result.data.payment_types?result.data.payment_types:[],
+							   	    cartItems:result.data.cart.items?result.data.cart.items:[],
+							   	    shippingAddrss:result.data.default_address?result.data.default_address:{},
+						            countries:result.data.country_list?result.data.country_list:[],
+						            first_name:result.data.default_address?result.data.default_address.first_name:"",
+						            last_name:result.data.default_address?result.data.default_address.last_name:"",
+						            country_id:result.data.default_address?result.data.default_address.country_id:"",
+						            state_id:result.data.default_address?result.data.default_address.governorate_id:"",
+						            area_id:result.data.default_address?result.data.default_address.area_id:"",
+						            block_id:result.data.default_address?result.data.default_address.block_id:"",
+						            street:result.data.default_address?result.data.default_address.street:"",
+						            mobile_number:result.data.default_address?result.data.default_address.mobile_number:"",
+						            addressline_1:result.data.default_address?result.data.default_address.addressline_1:"",
+						            shipping_cost:shipping_price,
+						            cod_cost:cod_cost,
+						            vat_charge:result.data.default_address?result.data.default_address.val:0,
+						            cartTotal:result.data.sub_total?result.data.sub_total:0,
+						            order_total:result.data.sub_total?result.data.total:0,
+						            discount_price:result.data.discount_price?result.data.discount_price:0,
+						            baseCurrencyName:result.data.baseCurrencyName?result.data.baseCurrencyName:"",
+						            coupons:result.data.coupon?result.data.coupon:{},
+						            coupon_class:result.data.coupon.code?"":"d-none",
+						            promo_code:""
+							   })
+					        }else{
+					        	this.showSuccessAlert("Error",result.message,"error");
+					        }
 				        	
 				        },
 				        (error) => {
@@ -656,6 +700,76 @@ class Checkout extends Component {
 				)
 			});
         }
+	}
+
+	removeCoupon(e){
+		e.preventDefault();
+		this.cartService.getOrderId().then((orderId) => {
+        	let loader = new Loader();
+			loader.show();
+			var checkItemStockParams = {
+				"user_id":this.state.userData.id,
+				"order_id":orderId,
+				"coupon_code":"",
+				"shipping_address_id":this.state.shippingAddrss.address_id,
+			}
+			fetch(Web.BaseUrl+"api/v1/redeem-coupon?lang=en&store=BD",{
+			  	  method: 'POST',
+				  headers: { 'Content-Type': 'application/json' },
+				  body: JSON.stringify(checkItemStockParams),
+			}).then(res => res.json())
+			      .then(
+			        (result) => {
+			        	//console.log(result);
+			        	if(result.status==200){
+				        	loader.hide();
+				        	let sp = result.data.default_address?result.data.default_address.shipping_cost:0;
+					        if(sp==undefined){
+					        	sp = 0;
+					        }
+					        let shipping_price = parseFloat(sp).toFixed(3);
+					        //
+					        let cod = result.data.default_address?result.data.default_address.cod_cost:0;
+					        if(cod==undefined){
+					        	cod = 0;
+					        }
+					        let cod_cost = parseFloat(cod).toFixed(3);
+
+				        	this.setState({
+						   	    paymentTypes:result.data.payment_types?result.data.payment_types:[],
+						   	    cartItems:result.data.cart.items?result.data.cart.items:[],
+						   	    shippingAddrss:result.data.default_address?result.data.default_address:{},
+					            countries:result.data.country_list?result.data.country_list:[],
+					            first_name:result.data.default_address?result.data.default_address.first_name:"",
+					            last_name:result.data.default_address?result.data.default_address.last_name:"",
+					            country_id:result.data.default_address?result.data.default_address.country_id:"",
+					            state_id:result.data.default_address?result.data.default_address.governorate_id:"",
+					            area_id:result.data.default_address?result.data.default_address.area_id:"",
+					            block_id:result.data.default_address?result.data.default_address.block_id:"",
+					            street:result.data.default_address?result.data.default_address.street:"",
+					            mobile_number:result.data.default_address?result.data.default_address.mobile_number:"",
+					            addressline_1:result.data.default_address?result.data.default_address.addressline_1:"",
+					            shipping_cost:shipping_price,
+					            cod_cost:cod_cost,
+					            vat_charge:result.data.default_address?result.data.default_address.val:0,
+					            cartTotal:result.data.sub_total?result.data.sub_total:0,
+					            order_total:result.data.sub_total?result.data.total:0,
+					            discount_price:result.data.discount_price?result.data.discount_price:0,
+					            baseCurrencyName:result.data.baseCurrencyName?result.data.baseCurrencyName:"",
+					            coupons:result.data.coupon?result.data.coupon:{},
+					            coupon_class:result.data.coupon.code?"":"d-none",
+						   })
+				        }else{
+					        	this.showSuccessAlert("Error",result.message,"error");
+					    }
+			        	
+			        },
+			        (error) => {
+			        	loader.hide();
+			            console.log(error);
+			        }
+			)
+		});
 	}
 
 	render(){
@@ -758,9 +872,24 @@ class Checkout extends Component {
 													  <button onClick={e => this.applyPromo(e)} className="btn btn-warning">Apply</button>
 													  <div className="text-danger">{this.state.errors.promo_code}</div>
 												 </div>
-				                   				 <hr/>
+				                   				 
+				                   			</div>
+				                   			
+				                   			<div className={"col-md-5 offset-md-7 " +this.state.coupon_class}>
+				                   				<span>&nbsp;</span>
+				                   				<span><b>Coupon Applied</b></span>
+				                   			    <div className="card">
+				                   			    	<div className="card-body">
+				                   			    	        <a onClick={e => this.removeCoupon(e)} href="#" className="text-danger float-right"><FontAwesomeIcon icon={faTrashAlt} /></a>
+						                   			     	Code: {this.state.coupons.code}<br/>
+						                   			     	{this.state.coupons.title}<br/>
+						                   			     	Discount: {this.state.coupons.discount}
+					                   			     </div>
+				                   			     </div>
 				                   			</div>
 				                   		</div>
+
+				                   		<hr/>
 				                   		<div className="row">
 											<div className="col-md-5 offset-md-7 text-left">
 											    <h5> Summary  </h5>

@@ -11,7 +11,7 @@ import swal from 'sweetalert';
 import CartService from '../services/CartService';
 import LoginService from '../services/LoginService';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faShoppingCart, faHeart } from '@fortawesome/free-solid-svg-icons';
+import { faShoppingCart, faHeart, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 
 
 class ProductDetails extends Component {
@@ -493,6 +493,32 @@ class ProductDetails extends Component {
 		}
 	}
 
+	renderWishlistSection(){
+		if(this.state.product_details.item_in_wishlist==1){
+			return(
+				<div>
+					<button onClick={this.handleRemoveWishlist.bind(this)} className="btn btn-light"><FontAwesomeIcon icon={faTrashAlt} /> Remove Wish List</button>
+			    </div>
+			)
+		}else{
+			return(
+				<div>
+					<button onClick={this.handleAddWishlist.bind(this)} className="btn btn-light"><FontAwesomeIcon icon={faHeart} /> Add Wish List</button>
+			    </div>
+			)
+		}
+	}
+
+	handleAddWishlist(){
+		
+	}
+
+	handleRemoveWishlist(){
+
+	}
+
+
+
 
 
 	render(){
@@ -539,7 +565,7 @@ class ProductDetails extends Component {
 												    	<button onClick={this.handleAddToCartClick.bind(this)} className="btn btn-info"><FontAwesomeIcon icon={faShoppingCart} /> Add to cart</button>
 												    </div>
 												    <div>
-												    	<button className="btn btn-light"><FontAwesomeIcon icon={faHeart} /> Wish List</button>
+												    	{this.renderWishlistSection()}
 												    </div>
 												</div>
 											</div>

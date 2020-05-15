@@ -202,6 +202,13 @@ class OrderDetails extends Component {
 					            				<tr>
 					            				    <td>&nbsp;</td>
 					            				    <td>&nbsp;</td>
+					            					<td>Discount</td>
+					            					<td>&nbsp;</td>
+					            					<td>{this.state.orderDetails.baseCurrencyName} {this.state.orderDetails.discount_price}</td>
+					            				</tr>
+					            				<tr>
+					            				    <td>&nbsp;</td>
+					            				    <td>&nbsp;</td>
 					            					<td>Shipping Cost</td>
 					            					<td>&nbsp;</td>
 					            					<td>{this.state.orderDetails.baseCurrencyName} {this.state.orderDetails.delivery_charges}</td>
