@@ -78,7 +78,7 @@ class Header extends React.Component {
 	render() {
 		const { value, suggestions } = this.state;
 	    const inputProps = {
-	      placeholder: "Search Dressly Store",
+	      placeholder: "Search My Shop",
 	      value,
 	      onChange: this.onChange,
 	      className: "form-control pull pull-right",
@@ -96,7 +96,7 @@ class Header extends React.Component {
 					 <div className="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-12">
 					     <div>
 							 <h5 className="my-0 mr-md-auto font-weight-normal">
-							 	<a href="/" className="text-light">Dressly</a>
+							 	<a href="/" className="text-light">My Shop</a>
 							  </h5>
 						  </div>
 					  </div>
