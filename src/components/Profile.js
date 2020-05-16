@@ -246,6 +246,9 @@ class Profile extends Component {
 								      <a className="nav-link" href="/myaccount">MY ORDERS</a>
 								    </li>
 								    <li className="nav-item">
+								      <a className="nav-link" href="/wishlist">MY WISHLIST</a>
+								    </li>
+								    <li className="nav-item">
 								      <a className="nav-link" href="/addresses">ADDRESSES</a>
 								    </li>
 								    <li className="nav-item">
@@ -304,16 +307,6 @@ class Profile extends Component {
 				              	  	   </div>
 				              	  	   <div className="col">
 				              	  	   		<DatePicker showMonthDropdown showYearDropdown  dropdownMode="select" dateFormat="yyyy-MM-dd" selected={date} onChange={this.handleChange.bind(this)} className="form-control"/>
-				              	  	   </div>
-			              	  	   </div>
-			              	  	   <div className="row mt-3">
-				              	  	   <div className="col">
-				              	  	   	    <label>Profile Picture</label>
-				              	  	   </div>
-				              	  	   <div className="col">
-				              	  	   		<img width="128" src={this.state.userImage}/>
-				              	  	   		<br/>
-				              	  	   		<input type="file" name="image"  onChange={this.handleUpload.bind(this)}/>
 				              	  	   </div>
 			              	  	   </div>
 			              	  	   <div className="row mt-3">

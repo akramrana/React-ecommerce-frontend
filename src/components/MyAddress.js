@@ -435,6 +435,9 @@ class MyAddress extends Component {
 								      <a className="nav-link" href="/myaccount">MY ORDERS</a>
 								    </li>
 								    <li className="nav-item">
+								      <a className="nav-link" href="/wishlist">MY WISHLIST</a>
+								    </li>
+								    <li className="nav-item">
 								      <a className="nav-link" href="/addresses">ADDRESSES</a>
 								    </li>
 								    <li className="nav-item">
