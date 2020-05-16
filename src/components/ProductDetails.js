@@ -40,6 +40,7 @@ class ProductDetails extends Component {
   			name:"",
   			short_description:"",
   			remaining_quantity:0,
+  			item_in_wishlist:0,
 
 	    };
 	    this.db = new DB();
@@ -48,71 +49,76 @@ class ProductDetails extends Component {
 	}
 
 	componentDidMount() {
+		
 		const {params} = this.props.match;
 		var product_id = params.id;
-		let loader = new Loader();
-		loader.show();
-		fetch(Web.BaseUrl+"api/v1/product-details?product_id="+product_id+"&store=BD")
-	      .then(res => res.json())
-	      .then(
-	        (result) => {
-	          this.setState({
-	            isLoaded: true,
-	            product_details: result.data?result.data:{},
-	            configurable_options:result.data?result.data.configurable_option:[],
-	            final_price:result.data?result.data.final_price:0,
-	            product_images:result.data?result.data.images:[],
-	            SKU:result.data?result.data.SKU:"",
-	            image_url:result.data?result.data.image:"",
-	            currency_code:result.data?result.data.currency_code:"",
-	            name:result.data?result.data.name:"",
-	            short_description:result.data?result.data.short_description:"",
-	            remaining_quantity:result.data?result.data.remaining_quantity:0
-	          });
-	          //console.log(this.state.configurable_options);
 
-			    let attributes = [];
-				let options = [];
-				//
-				var selectionAttributes = document.getElementsByClassName("attributes");
-			    Array.prototype.forEach.call(selectionAttributes, function(el,i) {
-				    let attribute_id = el.getAttribute("data-attribute_id");
-				    let option_id = el.value;
-				    //
-				    attributes[i] = attribute_id;
-				    options[i] = option_id;
-				});
+	    this.loginService.getUserData().then(
+	    	(userinfo) => {
+			   this.setState({
+			   	   userData:userinfo,
+			   })
+			   let userId = userinfo.id?userinfo.id:"";
+			   let loader = new Loader();
+			   loader.show();
+			   fetch(Web.BaseUrl+"api/v1/product-details?product_id="+product_id+"&user_id="+userId+"&store=BD")
+			      .then(res => res.json())
+			      .then(
+			        (result) => {
+			          this.setState({
+			            isLoaded: true,
+			            product_details: result.data?result.data:{},
+			            configurable_options:result.data?result.data.configurable_option:[],
+			            final_price:result.data?result.data.final_price:0,
+			            product_images:result.data?result.data.images:[],
+			            SKU:result.data?result.data.SKU:"",
+			            image_url:result.data?result.data.image:"",
+			            currency_code:result.data?result.data.currency_code:"",
+			            name:result.data?result.data.name:"",
+			            short_description:result.data?result.data.short_description:"",
+			            remaining_quantity:result.data?result.data.remaining_quantity:0,
+			            item_in_wishlist:result.data?result.data.item_in_wishlist:0
+			          });
+			          //console.log(this.state.configurable_options);
 
-				//console.log(attributes);
-				//console.log(options);
+					    let attributes = [];
+						let options = [];
+						//
+						var selectionAttributes = document.getElementsByClassName("attributes");
+					    Array.prototype.forEach.call(selectionAttributes, function(el,i) {
+						    let attribute_id = el.getAttribute("data-attribute_id");
+						    let option_id = el.value;
+						    //
+						    attributes[i] = attribute_id;
+						    options[i] = option_id;
+						});
 
-			    this.setState({
-			    	attributes:attributes,
-			    	options:options,
-			    });
+						//console.log(attributes);
+						//console.log(options);
 
-			    loader.hide();
+					    this.setState({
+					    	attributes:attributes,
+					    	options:options,
+					    });
 
-			    this.getConfigureOptions(attributes,options);
-	        },
-	        // Note: it's important to handle errors here
-	        // instead of a catch() block so that we don't swallow
-	        // exceptions from actual bugs in components.
-	        (error) => {
-	          this.setState({
-	            isLoaded: true,
-	            error
-	          });
+					    loader.hide();
 
-	          loader.hide();
-	        }
-	    )
-	    //
-	    this.loginService.getUserData().then((userinfo) => {
-			this.setState({
-		   	   userData:userinfo,
-		   })
-		})
+					    this.getConfigureOptions(attributes,options);
+			        },
+			        // Note: it's important to handle errors here
+			        // instead of a catch() block so that we don't swallow
+			        // exceptions from actual bugs in components.
+			        (error) => {
+			          this.setState({
+			            isLoaded: true,
+			            error
+			          });
+
+			          loader.hide();
+			        }
+			    )
+			}
+		)
 
 		this.cartService.getCartCount().then((count) => {
 			this.setState({
@@ -494,7 +500,7 @@ class ProductDetails extends Component {
 	}
 
 	renderWishlistSection(){
-		if(this.state.product_details.item_in_wishlist==1){
+		if(this.state.item_in_wishlist==1){
 			return(
 				<div>
 					<button onClick={this.handleRemoveWishlist.bind(this)} className="btn btn-light"><FontAwesomeIcon icon={faTrashAlt} /> Remove Wish List</button>
@@ -510,11 +516,79 @@ class ProductDetails extends Component {
 	}
 
 	handleAddWishlist(){
-		
+		if(this.state.userData.id){
+			let loader = new Loader();
+			loader.show();
+			let postParams = {
+				user_id:this.state.userData.id,
+				product_id:this.state.product_details.id,
+			}
+
+			fetch(Web.BaseUrl+"api/v1/add-wishlist?lang=en&store=BD",{
+			  	  method: 'POST',
+				  headers: { 'Content-Type': 'application/json' },
+				  body: JSON.stringify(postParams),
+			}).then(res => res.json())
+			      .then(
+			        (result) => {
+			        	 loader.hide();
+			        	 if(result.status==200){
+			        	 	this.showSuccessAlert("",result.message,"success");
+			        	 	this.setState({
+					            item_in_wishlist: result.data.item_in_wishlist,
+					          });
+			        	 }
+			        },
+			        (error) => {
+			          this.setState({
+			            isLoaded: true,
+			            error
+			          });
+			          loader.hide();
+			        }
+			)
+		}
+		else{
+			this.showSuccessAlert("","Please login to continue","warning");
+		}
 	}
 
 	handleRemoveWishlist(){
+		if(this.state.userData.id){
+			let loader = new Loader();
+			loader.show();
+			let postParams = {
+				user_id:this.state.userData.id,
+				product_id:this.state.product_details.id,
+			}
 
+			fetch(Web.BaseUrl+"api/v1/remove-wishlist?lang=en&store=BD",{
+			  	  method: 'POST',
+				  headers: { 'Content-Type': 'application/json' },
+				  body: JSON.stringify(postParams),
+			}).then(res => res.json())
+			      .then(
+			        (result) => {
+			        	 loader.hide();
+			        	 if(result.status==200){
+			        	 	this.showSuccessAlert("",result.message,"success");
+			        	 	this.setState({
+					            item_in_wishlist: result.data.item_in_wishlist,
+					          });
+			        	 }
+			        },
+			        (error) => {
+			          this.setState({
+			            isLoaded: true,
+			            error
+			          });
+			          loader.hide();
+			        }
+			)
+		}
+		else{
+			this.showSuccessAlert("","Please login to continue","warning");
+		}
 	}
 
 
