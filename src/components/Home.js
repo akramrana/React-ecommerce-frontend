@@ -102,7 +102,7 @@ class Home extends Component {
 		//console.log(this.state.new_arrivals);
 		if(this.state.new_arrivals.length){
 			return (
-				<OwlCarousel className="owl-theme" margin={5} loop autoplay={true}>
+				<OwlCarousel className="owl-theme" margin={5} loop autoplay={true} items={5}>
 					{this.state.new_arrivals.map((v, i) => {
 						return <div className="item" key={i}>
 								    <div>
@@ -120,7 +120,7 @@ class Home extends Component {
 	renderShopSlider(){
 		if(this.state.shops.length){
 			return (
-				<OwlCarousel className="owl-theme" margin={5} loop autoplay={true}>
+				<OwlCarousel className="owl-theme" margin={5} loop autoplay={true} items={6}>
 					{this.state.shops.map((value, index) => {
 					        return <div className="item" key={index}>
 					        			<div className="">
@@ -155,24 +155,22 @@ class Home extends Component {
 	            <div className="row">
 		            {this.state.banners.map((value, index) => {
 				        return <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12" key={index}>
-				                    <h3 className="text-uppercase">{value.name}</h3>
+				                    <h3>{value.name}</h3>
 				        			<a href={this.renderHrefUrl(value.id,value.name,value.link_type,value.link_id,value.url)}>
 				        				<img className="img-fluid" src={value.image} alt={value.name}/>
 				        		    </a>
 				        	  </div>
 				     })}
 			    </div>
-			    <hr/>
 			    <div className="row">
 			    	<div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-			        	<h1 style={{width: '100%'}}>NEW ARRIVAL</h1>
+			        	<h1 style={{width: '100%'}}>New Arrival</h1>
 			        	 {this.renderNewArrivalSlider()}
 			        </div>
 			    </div>
-			    <hr/>
 			    <div className="row">
 			    	<div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-				    	<h1 style={{width: '100%'}}>SHOPS</h1>
+				    	<h1 style={{width: '100%'}}>Shops</h1>
 				    	{this.renderShopSlider()}
 			    	</div>
 			    </div>
