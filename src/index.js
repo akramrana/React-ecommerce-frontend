@@ -2,7 +2,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import $ from 'jquery';
 import Popper from 'popper.js';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import ReactDOM from 'react-dom';
 
 import './index.css'
@@ -27,7 +27,8 @@ import Profile from './components/Profile';
 import ChangePassword from './components/ChangePassword';
 import ForgotPassword from './components/ForgotPassword';
 import Wishlist from './components/Wishlist';
-
+import Header from './layouts/Header'
+import Footer from './layouts/Footer.js'
 
 //window.jQuery = $;
 //window.$ = $;
@@ -37,26 +38,146 @@ const routing = (
 	<Router>
 	  <Switch>
 	      <Route exact  path="/" component={Home}/>
-	      <Route path="/home" component={Home} />
-	      <Route path="/page/:id/:title" component={Cms} />
-	      <Route path="/products/:type/:id/:title" component={Products} />
-	      <Route path="/products/:type/:id/:title" component={Products} />
-	      <Route path="/products/:type/:id/:title" component={Products} />
-	      <Route path="/product/:id/:title" component={ProductDetails} />
-	      <Route path="/products/all-category" component={Products} />
-	      <Route path="/register" component={Registration} />
-	      <Route path="/login" component={Login} />
-	      <Route path="/logout" component={Logout} />
-	      <Route path="/cart" component={Cart} />
-	      <Route path="/checkout" component={Checkout} />
-	      <Route path="/order-details/:id" component={OrderDetails} />
-	      <Route path="/myaccount" component={MyAccount} />
-	      <Route path="/addresses" component={MyAddress} />
-	      <Route path="/profile" component={Profile} />
-	      <Route path="/change-password" component={ChangePassword} />
-	      <Route path="/products/search" component={Products} />
-	      <Route path="/forgot-password" component={ForgotPassword} />
-	      <Route path="/wishlist" component={Wishlist} />
+          <Route
+            path="/register"
+            render={(props) => (
+              <Suspense fallback={<h1>Loading....</h1>}>
+                <Registration {...props}/>
+              </Suspense>
+            )}
+          />
+	      <Route path="/home" 
+          render={(props) => (
+              <Suspense fallback={<h1>Loading....</h1>}>
+                <Home {...props}/>
+              </Suspense>
+            )}/>
+	      <Route path="/page/:id/:title" 
+          render={(props) => (
+              <Suspense fallback={<h1>Loading....</h1>}>
+                <Cms {...props}/>
+              </Suspense>
+            )}
+          />
+	      <Route path="/products/:type/:id/:title" 
+          render={(props) => (
+              <Suspense fallback={<h1>Loading....</h1>}>
+                <Products {...props}/>
+              </Suspense>
+            )}
+          />
+	      <Route path="/products/:type/:id/:title" 
+          render={(props) => (
+              <Suspense fallback={<h1>Loading....</h1>}>
+                <Products {...props}/>
+              </Suspense>
+            )}
+          />
+	      <Route path="/products/:type/:id/:title" 
+          render={(props) => (
+              <Suspense fallback={<h1>Loading....</h1>}>
+                <Products {...props}/>
+              </Suspense>
+            )}
+          />
+	      <Route path="/product/:id/:title" 
+          render={(props) => (
+              <Suspense fallback={<h1>Loading....</h1>}>
+                <ProductDetails {...props}/>
+              </Suspense>
+            )}
+          />
+	      <Route path="/products/all-category" 
+          render={(props) => (
+              <Suspense fallback={<h1>Loading....</h1>}>
+                <Products {...props}/>
+              </Suspense>
+            )}
+          />
+	      <Route path="/login" 
+          render={(props) => (
+              <Suspense fallback={<h1>Loading....</h1>}>
+                <Login {...props}/>
+              </Suspense>
+            )}
+          />
+	      <Route path="/logout" 
+          render={(props) => (
+              <Suspense fallback={<h1>Loading....</h1>}>
+                <Logout {...props}/>
+              </Suspense>
+            )}
+          />
+	      <Route path="/cart" 
+          render={(props) => (
+              <Suspense fallback={<h1>Loading....</h1>}>
+                <Cart {...props}/>
+              </Suspense>
+            )}
+          />
+	      <Route path="/checkout" 
+          render={(props) => (
+              <Suspense fallback={<h1>Loading....</h1>}>
+                <Checkout {...props}/>
+              </Suspense>
+            )}
+          />
+	      <Route path="/order-details/:id" 
+          render={(props) => (
+              <Suspense fallback={<h1>Loading....</h1>}>
+                <OrderDetails {...props}/>
+              </Suspense>
+            )}
+          />
+	      <Route path="/myaccount" 
+          render={(props) => (
+              <Suspense fallback={<h1>Loading....</h1>}>
+                <MyAccount {...props}/>
+              </Suspense>
+            )}
+          />
+	      <Route path="/addresses" 
+          render={(props) => (
+              <Suspense fallback={<h1>Loading....</h1>}>
+                <MyAddress {...props}/>
+              </Suspense>
+            )}
+          />
+	      <Route path="/profile" 
+          render={(props) => (
+              <Suspense fallback={<h1>Loading....</h1>}>
+                <Profile {...props}/>
+              </Suspense>
+            )}
+          />
+	      <Route path="/change-password"  
+          render={(props) => (
+              <Suspense fallback={<h1>Loading....</h1>}>
+                <ChangePassword />
+              </Suspense>
+            )}
+          />
+	      <Route path="/products/search" 
+          render={(props) => (
+              <Suspense fallback={<h1>Loading....</h1>}>
+                <Products {...props}/>
+              </Suspense>
+            )}
+          />
+	      <Route path="/forgot-password" 
+          render={(props) => (
+              <Suspense fallback={<h1>Loading....</h1>}>
+                <ForgotPassword {...props}/>
+              </Suspense>
+            )}
+          />
+	      <Route path="/wishlist" 
+          render={(props) => (
+              <Suspense fallback={<h1>Loading....</h1>}>
+                <Wishlist {...props}/>
+              </Suspense>
+            )}
+        />
 	      <Route component={Notfound} />
       </Switch>
     </Router>

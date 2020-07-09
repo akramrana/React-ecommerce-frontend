@@ -218,7 +218,6 @@ class Products extends Component {
 		//console.log(this.state.products);
 		return (
       	  <div>
-	         {this.renderHeader()}
 	         <div id="content" className="container">
 	            <div className="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
 	              <div>
@@ -330,7 +329,6 @@ class Products extends Component {
 	              </div>
 	            </div>
 	          </div>
-	          <Footer />
           </div>
         )
 	}

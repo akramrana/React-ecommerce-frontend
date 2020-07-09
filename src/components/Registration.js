@@ -4,6 +4,8 @@ import Footer from '../layouts/Footer.js'
 import DB from '../helpers/DB';
 import CartService from '../services/CartService';
 import LoginService from '../services/LoginService';
+import Loader from '../helpers/Loader';
+import swal from 'sweetalert';
 
 class Registration extends Component {
 	constructor(props) {
