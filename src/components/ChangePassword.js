@@ -7,6 +7,7 @@ import DB from '../helpers/DB';
 import LoginService from '../services/LoginService';
 import swal from 'sweetalert';
 import CartService from '../services/CartService';
+import UserLeftMenu from './UserLeftMenu';
 
 class ChangePassword extends Component {
 
@@ -102,8 +103,9 @@ class ChangePassword extends Component {
 			  	old_password: this.state.old_password,
 			    new_password: this.state.new_password,
 			    confirm_password:this.state.confirm_password,
-			}
-			fetch("http://localhost/shopping/api/v1/edit-profile",{
+			};
+			
+			fetch(Web.BaseUrl+"api/v1/edit-profile",{
 			  	  method: 'POST',
 				  headers: { 'Content-Type': 'application/json' },
 				  body: JSON.stringify(formData),
@@ -153,27 +155,7 @@ class ChangePassword extends Component {
 		              	<h1 className="display-4">Change Password</h1>
 		              </div>
 		              <div className="row">
-		              	  <div className="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12 text-left">
-		              	  		<nav className="navbar bg-light">
-								  <ul className="navbar-nav">
-								    <li className="nav-item">
-								      <a className="nav-link" href="/myaccount">MY ORDERS</a>
-								    </li>
-								    <li className="nav-item">
-								      <a className="nav-link" href="/wishlist">MY WISHLIST</a>
-								    </li>
-								    <li className="nav-item">
-								      <a className="nav-link" href="/addresses">ADDRESSES</a>
-								    </li>
-								    <li className="nav-item">
-								      <a className="nav-link" href="/profile">PROFILE</a>
-								    </li>
-								    <li className="nav-item">
-								      <a className="nav-link" href="/change-password">CHANGE PASSWORD</a>
-								    </li>
-								  </ul>
-								</nav>
-		              	  </div>
+					  	  <UserLeftMenu/>
 		              	  <div className="col-xl-9 col-lg-9 col-md-9 col-sm-12 col-12 text-left">
 		              	  	   <form action="#">
 		              	  	   		<div className="row">

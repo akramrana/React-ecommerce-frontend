@@ -10,81 +10,92 @@ import LoginService from '../services/LoginService';
 class Cms extends Component {
 
 	constructor(props) {
-	    super(props);
-	    this.state = {
-	    	cms_info:{},
-	    	cartCount:0,
-	    	userData:{}
-	    };
-	    this.db = new DB();
-	    this.cartService = new CartService(this.db); 
-	    this.loginService = new LoginService(this.db);
+		super(props);
+		this.state = {
+			cms_info: {},
+			cartCount: 0,
+			userData: {}
+		};
+		this.db = new DB();
+		this.cartService = new CartService(this.db);
+		this.loginService = new LoginService(this.db);
 	}
 
-    componentDidMount() {
-    	const {params} = this.props.match;
-    	let loader = new Loader();
-		loader.show();
-	    fetch(Web.BaseUrl+"api/v1/cms?page="+params.id)
-	      .then(res => res.json())
-	      .then(
-	        (result) => {
-	          this.setState({
-	            isLoaded: true,
-	            cms_info: result.data
-	          });
-	          loader.hide();
-	        },
-	        // Note: it's important to handle errors here
-	        // instead of a catch() block so that we don't swallow
-	        // exceptions from actual bugs in components.
-	        (error) => {
-	          this.setState({
-	            isLoaded: true,
-	            error
-	          });
-	          loader.hide();
-	        }
-	      )
-
+	componentDidMount() {
+		const { params } = this.props.match;
+		this.getCmsDetails(params.id);
 		this.loginService.getUserData().then((userinfo) => {
 			this.setState({
-		   	   userData:userinfo,
-		   })
-		})
+				userData: userinfo,
+			});
+		});
 
 		this.cartService.getCartCount().then((count) => {
 			this.setState({
-		   	   cartCount:count,
-		   })
+				cartCount: count,
+			});
 		});
 	}
 
-	renderHeader(){
-		if(this.state.userData && this.state.userData.id){
-			return (
-				<Header userinfo = {this.state.userData} cartCount={this.state.cartCount}/>
+	getCmsDetails(id) {
+		let loader = new Loader();
+		loader.show();
+		fetch(Web.BaseUrl + "api/v1/cms?page=" + id)
+			.then(res => res.json())
+			.then(
+				(result) => {
+					this.setState({
+						isLoaded: true,
+						cms_info: result.data
+					});
+					loader.hide();
+				},
+				// Note: it's important to handle errors here
+				// instead of a catch() block so that we don't swallow
+				// exceptions from actual bugs in components.
+				(error) => {
+					this.setState({
+						isLoaded: true,
+						error
+					});
+					loader.hide();
+				}
 			)
-		}else{
+	}
+
+	componentDidUpdate(prevProps, prevState, snapshot) {
+		let oldParams = prevProps.match.params;
+		let newParams = this.props.match.params;
+		if (oldParams.id !== newParams.id) {
+			this.getCmsDetails(newParams.id);
+		}
+	}
+
+	renderHeader() {
+		if (this.state.userData && this.state.userData.id) {
 			return (
-				<Header userinfo = {this.state.userData} cartCount={this.state.cartCount}/>
+				<Header userinfo={this.state.userData} cartCount={this.state.cartCount} />
+			)
+		} else {
+			return (
+				<Header userinfo={this.state.userData} cartCount={this.state.cartCount} />
 			)
 		}
 	}
 
-	render(){
+	render() {
 		return (
-      	  <div>
-	         {this.renderHeader()}
-	         <div className="container">
-	            <div className="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-	              <h1 className="display-4">{this.state.cms_info.page}</h1>
-	              <p dangerouslySetInnerHTML={{__html: this.state.cms_info.content}}/>
-	            </div>
-	          </div>
-	          <Footer />
-          </div>
-        )
+			<div>
+				{this.renderHeader()}
+				<div className="container">
+					<div className="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-justify">
+						<h1 className="display-4">{this.state.cms_info.page}</h1>
+						<p dangerouslySetInnerHTML={{ __html: this.state.cms_info.content }} />
+					</div>
+				</div>
+				<Footer />
+			</div>
+		)
 	}
 }
 

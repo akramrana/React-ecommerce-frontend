@@ -11,6 +11,7 @@ import { Button, Modal } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt} from '@fortawesome/free-solid-svg-icons';
+import {Link} from "react-router-dom";
 
 class Cart extends Component {
 
@@ -488,16 +489,16 @@ class Cart extends Component {
 		                   		return(
 		                   			<div className="row  mb-3" key={index}>
 			                   			<div className="col d-none d-sm-none d-sm-block product-image">
-									     	<a href={this.renderHrefUrl(value.product_id,value.name)}>
+									     	<Link to={this.renderHrefUrl(value.product_id,value.name)}>
 								        		<img src={value.image} alt={value.name}/>
-								        	</a>
+								        	</Link>
 									    </div>
 									    <div className="col">
-									      <a href={this.renderHrefUrl(value.product_id,value.name)}>
+									      <Link to={this.renderHrefUrl(value.product_id,value.name)}>
 										      <b>{value.name}</b>
 										      <p>{value.short_description}</p>
 										      <p><b>SKU: </b>{value.sku}</p>
-									      </a>
+									      </Link>
 									    </div>
 									    <div className="col d-none d-sm-none d-sm-block">
 									      <b>{value.currency_code}</b> {value.final_price}

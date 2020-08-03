@@ -2,6 +2,7 @@ import React from 'react';
 import Web from '../config/Web'
 import DB from '../helpers/DB';
 import CommonService from '../services/CommonService';
+import {Link} from "react-router-dom";
 
 class Category extends React.Component {
 	constructor(props) {
@@ -66,7 +67,7 @@ class Category extends React.Component {
 						        <div className="dropdown-menu" aria-labelledby={"dropdown"+value.id}>
 							      {value.subcategories.map((v, i) => {
 							      	var subname = v.name.replace(/\s+/g, '-').toLowerCase();
-							        return <a className="dropdown-item" data-key={v.id} href={'/products/category/'+v.id+'/'+subname} key={i}>{v.name}</a>
+							        return <Link className="dropdown-item" data-key={v.id} to={'/products/category/'+v.id+'/'+subname} key={i}>{v.name}</Link>
 							      })}
 						        </div>
 						  	</div>

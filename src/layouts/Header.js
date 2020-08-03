@@ -1,7 +1,8 @@
 import React from 'react';
 import Category from '../components/Categories';
 import Autosuggest from 'react-autosuggest';
-import Web from '../config/Web'
+import Web from '../config/Web';
+import {Link} from "react-router-dom";
 
 const getSuggestionValue = (suggestion) => suggestion.name
 const renderSuggestion = (suggestion) => (<span>{suggestion.name}</span>)
@@ -56,10 +57,10 @@ class Header extends React.Component {
 			return (
 				<div>
 					    <span>
-							<a className="text-light" href="/myaccount">My Account</a> &nbsp;
+							<Link className="text-light" to="/myaccount">My Account</Link> &nbsp;
 						</span>
 						<span>
-							<a className="text-light"  href="/logout" ><i className="glyphicon glyphicon-log-out"></i> Logout</a>
+							<Link className="text-light"  to="/logout" ><i className="glyphicon glyphicon-log-out"></i> Logout</Link>
 						</span>
 				</div>
 			)
@@ -67,8 +68,8 @@ class Header extends React.Component {
 			return (
 				<div>
 					<div>
-						<a className="text-light" href="/login">Login</a> &nbsp;
-						<a className="text-light" href="/register">Sign up</a>
+						<Link className="text-light" to="/login">Login</Link> &nbsp;
+						<Link className="text-light" to="/register">Sign up</Link>
 					</div>
 				</div>
 			)
@@ -96,7 +97,7 @@ class Header extends React.Component {
 					 <div className="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-12">
 					     <div>
 							 <h5 className="my-0 mr-md-auto font-weight-normal">
-							 	<a href="/" className="text-light">My Shop</a>
+							 	<Link to="/" className="text-light">My Shop</Link>
 							  </h5>
 						  </div>
 					  </div>
@@ -132,12 +133,12 @@ class Header extends React.Component {
 				  <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
 				      <div className="row float-right">
 						  <div className="my-2 my-md-0 mr-md-3">
-						      <a href="/cart">
+						      <Link to="/cart">
 						      	<img width="24" src="/images/_ionicons_svg_md-cart.svg" alt="cart"/> 
 						      	<span className="cart-badge badge badge-dark">
 						      		{this.props.cartCount}
 						      	</span>
-						      </a>
+						      </Link>
 						  </div>
 					  </div>
 				  </div>

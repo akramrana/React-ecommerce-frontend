@@ -10,6 +10,7 @@ import Web from '../config/Web'
 import DB from '../helpers/DB';
 import CartService from '../services/CartService';
 import LoginService from '../services/LoginService';
+import {Link} from "react-router-dom";
 
 
 class Home extends Component {
@@ -106,9 +107,9 @@ class Home extends Component {
 					{this.state.new_arrivals.map((v, i) => {
 						return <div className="item" key={i}>
 								    <div>
-					                    <a href={'/product/'+v.id+'/'+this.cleanUrl(v.name)}>
+					                    <Link to={'/product/'+v.id+'/'+this.cleanUrl(v.name)}>
 					        				<img className="img-fluid" src={v.image} alt={v.name}/>
-					        			</a>
+					        			</Link>
 					        	    </div>
 								</div>
 				    })}
@@ -124,9 +125,9 @@ class Home extends Component {
 					{this.state.shops.map((value, index) => {
 					        return <div className="item" key={index}>
 					        			<div className="">
-						                    <a href={'/products/shop/'+value.id+'/'+this.cleanUrl(value.title)}>
+						                    <Link to={'/products/shop/'+value.id+'/'+this.cleanUrl(value.title)}>
 						        				<img className="img-fluid" src={value.logo} alt={value.title}/>
-						        			</a>
+						        			</Link>
 					        	  		</div>
 					        	  </div>
 					     })}
@@ -156,9 +157,9 @@ class Home extends Component {
 		            {this.state.banners.map((value, index) => {
 				        return <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12" key={index}>
 				                    <h3>{value.name}</h3>
-				        			<a href={this.renderHrefUrl(value.id,value.name,value.link_type,value.link_id,value.url)}>
+				        			<Link to={this.renderHrefUrl(value.id,value.name,value.link_type,value.link_id,value.url)}>
 				        				<img className="img-fluid" src={value.image} alt={value.name}/>
-				        		    </a>
+				        		    </Link>
 				        	  </div>
 				     })}
 			    </div>

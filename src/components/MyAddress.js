@@ -10,6 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons'
 import CartService from '../services/CartService';
 import { Button, Modal } from 'react-bootstrap';
+import UserLeftMenu from './UserLeftMenu';
 
 class MyAddress extends Component {
 
@@ -428,27 +429,7 @@ class MyAddress extends Component {
 		              	<h1 className="display-4">My Addresses</h1>
 		              </div>
 		              <div className="row">
-		              	  <div className="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12 text-left">
-		              	  		<nav className="navbar bg-light">
-								  <ul className="navbar-nav">
-								    <li className="nav-item">
-								      <a className="nav-link" href="/myaccount">MY ORDERS</a>
-								    </li>
-								    <li className="nav-item">
-								      <a className="nav-link" href="/wishlist">MY WISHLIST</a>
-								    </li>
-								    <li className="nav-item">
-								      <a className="nav-link" href="/addresses">ADDRESSES</a>
-								    </li>
-								    <li className="nav-item">
-								      <a className="nav-link" href="/profile">PROFILE</a>
-								    </li>
-								    <li className="nav-item">
-								      <a className="nav-link" href="/change-password">CHANGE PASSWORD</a>
-								    </li>
-								  </ul>
-								</nav>
-		              	  </div>
+					  	  <UserLeftMenu/>
 		              	  <div className="col-xl-9 col-lg-9 col-md-9 col-sm-12 col-12 text-left">
 		              	  	   <table className="table table-bordered">
 		              	  	   		<thead>

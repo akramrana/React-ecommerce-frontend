@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from "react-router-dom";
 
 class Footer extends React.Component {
 	render(){
@@ -10,11 +11,11 @@ class Footer extends React.Component {
 			      <div className="col-6 col-md">
 			        <h5>Help</h5>
 			        <ul className="list-unstyled text-small">
-			          <li><a className="text-muted" href="/page/1/about-us">About us</a></li>
-			          <li><a className="text-muted" href="/page/2/terms-and-condition">Terms and conditions</a></li>
-			          <li><a className="text-muted" href="/page/4/return-policy">Return Policy & Procedures</a></li>
-			          <li><a className="text-muted" href="/page/5/privacy">Privacy Policy</a></li>
-			          <li><a className="text-muted" href="/page/6/shipping-info">Shipping Information</a></li>
+			          <li><Link className="text-muted" to="/page/1/about-us">About us</Link></li>
+			          <li><Link className="text-muted" to="/page/2/terms-and-condition">Terms and conditions</Link></li>
+			          <li><Link className="text-muted" to="/page/4/return-policy">Return Policy & Procedures</Link></li>
+			          <li><Link className="text-muted" to="/page/5/privacy">Privacy Policy</Link></li>
+			          <li><Link className="text-muted" to="/page/6/shipping-info">Shipping Information</Link></li>
 			        </ul>
 			      </div>
 			    </div>

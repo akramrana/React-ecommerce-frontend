@@ -9,6 +9,8 @@ import swal from 'sweetalert';
 import CartService from '../services/CartService';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import UserLeftMenu from './UserLeftMenu';
+import { Link } from "react-router-dom";
 
 class Wishlist extends Component {
 
@@ -150,38 +152,18 @@ class Wishlist extends Component {
 		              	<h1 className="display-4">MY WISHLIST</h1>
 		              </div>
 		              <div className="row">
-		              	  <div className="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12 text-left">
-		              	  		<nav className="navbar bg-light">
-								  <ul className="navbar-nav">
-								    <li className="nav-item">
-								      <a className="nav-link" href="/myaccount">MY ORDERS</a>
-								    </li>
-								    <li className="nav-item">
-								      <a className="nav-link" href="/wishlist">MY WISHLIST</a>
-								    </li>
-								    <li className="nav-item">
-								      <a className="nav-link" href="/addresses">ADDRESSES</a>
-								    </li>
-								    <li className="nav-item">
-								      <a className="nav-link" href="/profile">PROFILE</a>
-								    </li>
-								    <li className="nav-item">
-								      <a className="nav-link" href="/change-password">CHANGE PASSWORD</a>
-								    </li>
-								  </ul>
-								</nav>
-		              	  </div>
+		              	  <UserLeftMenu/>
 		              	  <div className="col-xl-9 col-lg-9 col-md-9 col-sm-12 col-12">
 		              	  	   <div className="row">
 		              	  	   		{this.state.userWishlist.map((value, index) => {
 								        return <div className="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-6" key={index}>
 								                    <div className="product-image">
-									                    <a href={this.renderHrefUrl(value.id,value.name)}>
+									                    <Link to={this.renderHrefUrl(value.id,value.name)}>
 									        				<img src={value.image} alt={value.name}/>
-									        			</a>
+									        			</Link>
 								        			</div>
 								        			<div className="product-details">
-								        				<a href={this.renderHrefUrl(value.id,value.name)}>
+								        				<Link to={this.renderHrefUrl(value.id,value.name)}>
 								        					<div className="product-name">
 								        						{value.name}
 								        					</div>
@@ -191,7 +173,7 @@ class Wishlist extends Component {
 								        					<div className="product-price">
 								        						{value.currency_code} {value.final_price}
 								        					</div>
-								        				</a>
+								        				</Link>
 							        					<div>
 							        					   <button onClick={this.handleRemoveWishlist.bind(this,value.id)} className="btn btn-light"><FontAwesomeIcon icon={faTrashAlt} /></button>
 							        					</div>
