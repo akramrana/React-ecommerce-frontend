@@ -118,7 +118,7 @@ const routing = (
           />
 	      <Route path="/order-details/:id" 
           render={(props) => (
-              <Suspense fallback={<Pace color="#FDD670" number={5}/>}>
+              <Suspense fallback={<Pace color={paceColor} number={5}/>}>
                 <OrderDetails {...props}/>
               </Suspense>
             )}
