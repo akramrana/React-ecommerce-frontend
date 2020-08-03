@@ -10,6 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye } from '@fortawesome/free-solid-svg-icons'
 import CartService from '../services/CartService';
 import UserLeftMenu from './UserLeftMenu';
+import {Link} from "react-router-dom";
 
 class MyAccount extends Component {
 
@@ -131,7 +132,7 @@ class MyAccount extends Component {
 				              	  	   				<td className="d-none d-sm-block">{value.created_date}</td>
 				              	  	   				<td><span style={{color:value.status_color}}>{value.status}</span></td>
 				              	  	   				<td>
-				              	  	   					<a href={'/order-details/'+value.id}> <FontAwesomeIcon icon={faEye} /></a>
+				              	  	   					<Link to={'/order-details/'+value.id}> <FontAwesomeIcon icon={faEye} /></Link>
 				              	  	   				</td>
 				              	  	   			</tr>
 			              	  	   			)
