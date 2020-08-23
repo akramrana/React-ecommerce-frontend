@@ -195,7 +195,7 @@ class Products extends Component {
 			attributes: attributes_id,
 			brands: brands_id,
 		}
-		this.getProductFromServer(category_id, brand_id, shop_id, page_num, 16, postParam, false);
+		this.getProductFromServer(category_id, brand_id, shop_id, page_num, 16, postParam, true);
 	}
 
 	resetFilter() {
@@ -247,23 +247,25 @@ class Products extends Component {
 						</div>
 						<div className="row">
 							<div className="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12">
-								<div>
-									<div className="filter-heading">
-										<h6 className="text-left">Categories </h6>
+								{this.state.subcategory.length > 0 &&
+									<div>
+										<div className="filter-heading">
+											<h6 className="text-left">Categories </h6>
+										</div>
+										<div className="filter-att">
+											<ul className="product-filters">
+												{this.state.subcategory.map((value, index) => {
+													var name = value.name.replace(/\s+/g, '-').toLowerCase();
+													return (
+														<li key={index}>
+															<Link to={'/products/category/' + value.id + '/' + name}>{value.name}</Link>
+														</li>
+													)
+												})}
+											</ul>
+										</div>
 									</div>
-									<div className="filter-att">
-										<ul className="product-filters">
-											{this.state.subcategory.map((value, index) => {
-												var name = value.name.replace(/\s+/g, '-').toLowerCase();
-												return (
-													<li key={index}>
-														<Link to={'/products/category/' + value.id + '/' + name}>{value.name}</Link>
-													</li>
-												)
-											})}
-										</ul>
-									</div>
-								</div>
+								}
 								<ul className="product-filters">
 									{this.state.filter.map((value, index) => {
 										return (

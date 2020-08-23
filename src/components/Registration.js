@@ -6,6 +6,7 @@ import CartService from '../services/CartService';
 import LoginService from '../services/LoginService';
 import Loader from '../helpers/Loader';
 import swal from 'sweetalert';
+import Web from '../config/Web';
 
 class Registration extends Component {
 	constructor(props) {
@@ -114,7 +115,7 @@ class Registration extends Component {
 		    phone:this.state.phone,
   			newsletter_subscribed:1,
 		  }
-		  fetch("http://localhost/shopping/api/v1/register",{
+		  fetch(Web.BaseUrl+"api/v1/register",{
 		  	  method: 'POST',
 			  headers: { 'Content-Type': 'application/json' },
 			  body: JSON.stringify(formData),
