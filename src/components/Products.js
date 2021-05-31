@@ -10,6 +10,7 @@ import LoginService from '../services/LoginService';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
 import { Link } from "react-router-dom";
+import CategoryLeft from '../components/CategoryLeft';
 
 class Products extends Component {
 
@@ -240,112 +241,119 @@ class Products extends Component {
 		return (
 			<div>
 				{this.renderHeader()}
-				<div id="content" className="container">
-					<div className="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-						<div>
-							<h1 className="display-4">{title}</h1>
+				<div id="content" className="container-fluid">
+					<div className="row">
+						<div className="col-3">
+							<CategoryLeft />
 						</div>
-						<div className="row">
-							<div className="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12">
-								{this.state.subcategory.length > 0 &&
-									<div>
-										<div className="filter-heading">
-											<h6 className="text-left">Categories </h6>
-										</div>
-										<div className="filter-att">
-											<ul className="product-filters">
-												{this.state.subcategory.map((value, index) => {
-													var name = value.name.replace(/\s+/g, '-').toLowerCase();
-													return (
-														<li key={index}>
-															<Link to={'/products/category/' + value.id + '/' + name}>{value.name}</Link>
-														</li>
-													)
-												})}
-											</ul>
-										</div>
-									</div>
-								}
-								<ul className="product-filters">
-									{this.state.filter.map((value, index) => {
-										return (
-											<li key={index}>
+						<div className="col-9">
+							<div className="pricing-header px-3 py-3 pb-md-4 mx-auto text-center">
+								<div>
+									<h1 className="display-4">{title}</h1>
+								</div>
+								<div className="row">
+									<div className="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12">
+										{this.state.subcategory.length > 0 &&
+											<div>
 												<div className="filter-heading">
-													<h6>Filter by {value.filter_name} </h6>
+													<h6 className="text-left">Categories </h6>
 												</div>
 												<div className="filter-att">
-													<div>
-														{value.filter_values.map((v, i) => {
-															let filterClassName = "";
-															if (value.input_name == 'brand_id') {
-																filterClassName = "brand-filter";
-															}
-															if (value.input_name == 'attribute_id') {
-																filterClassName = "attribute-filter";
-															}
+													<ul className="product-filters">
+														{this.state.subcategory.map((value, index) => {
+															var name = value.name.replace(/\s+/g, '-').toLowerCase();
 															return (
-																<div key={i}>
-																	<input onChange={this.handleFilterClick.bind(this)} className={filterClassName} type="checkbox" name={value.input_name + '[]'} value={v.id} /> {v.value}
-																</div>
+																<li key={index}>
+																	<Link to={'/products/category/' + value.id + '/' + name}>{value.name}</Link>
+																</li>
 															)
 														})}
+													</ul>
+												</div>
+											</div>
+										}
+										<ul className="product-filters">
+											{this.state.filter.map((value, index) => {
+												return (
+													<li key={index}>
+														<div className="filter-heading">
+															<h6>Filter by {value.filter_name} </h6>
+														</div>
+														<div className="filter-att">
+															<div>
+																{value.filter_values.map((v, i) => {
+																	let filterClassName = "";
+																	if (value.input_name == 'brand_id') {
+																		filterClassName = "brand-filter";
+																	}
+																	if (value.input_name == 'attribute_id') {
+																		filterClassName = "attribute-filter";
+																	}
+																	return (
+																		<div key={i}>
+																			<input onChange={this.handleFilterClick.bind(this)} className={filterClassName} type="checkbox" name={value.input_name + '[]'} value={v.id} /> {v.value}
+																		</div>
+																	)
+																})}
+															</div>
+														</div>
+													</li>
+												)
+											})}
+											<li>
+												<a href="#" onClick={this.resetFilter.bind(this)}><b>Reset Filter</b></a>
+											</li>
+										</ul>
+									</div>
+									<div className="col-xl-9 col-lg-9 col-md-9 col-sm-12 col-12">
+										<div className="row">
+											{this.state.products.map((value, index) => {
+												return <div className="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-6" key={index}>
+													<div className="product-image">
+														<Link to={this.renderHrefUrl(value.id, value.name)}>
+															<img src={value.image} alt={value.name} />
+														</Link>
+													</div>
+													<div className="product-details">
+														<Link to={this.renderHrefUrl(value.id, value.name)}>
+															<div className="product-name">
+																{value.name}
+															</div>
+															<div className="product-brand">
+																{value.brand}
+															</div>
+															<div className="product-price">
+																{value.currency_code} {value.final_price}
+															</div>
+														</Link>
 													</div>
 												</div>
-											</li>
-										)
-									})}
-									<li>
-										<a href="#" onClick={this.resetFilter.bind(this)}><b>Reset Filter</b></a>
-									</li>
-								</ul>
-							</div>
-							<div className="col-xl-9 col-lg-9 col-md-9 col-sm-12 col-12">
-								<div className="row">
-									{this.state.products.map((value, index) => {
-										return <div className="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-6" key={index}>
-											<div className="product-image">
-												<Link to={this.renderHrefUrl(value.id, value.name)}>
-													<img src={value.image} alt={value.name} />
-												</Link>
+											})}
+											<div className="col-12 clearfix">
+												<hr />
+												<div className="d-flex justify-content-center">
+													<nav aria-label="Page navigation example">
+														<ReactPaginate
+															previousLabel={'previous'}
+															nextLabel={'next'}
+															breakLabel={'...'}
+															breakClassName={'break-me'}
+															pageCount={this.state.total_pages}
+															marginPagesDisplayed={2}
+															pageRangeDisplayed={5}
+															onPageChange={this.handlePageClick.bind(this)}
+															containerClassName={'pagination'}
+															subContainerClassName={'pages pagination'}
+															activeClassName={'active'}
+															pageClassName={'page-item'}
+															pageLinkClassName={'page-link'}
+															previousClassName={'page-link'}
+															nextClassName={'page-link'}
+															hrefBuilder={this.buildPaginateHref}
+														/>
+													</nav>
+												</div>
 											</div>
-											<div className="product-details">
-												<Link to={this.renderHrefUrl(value.id, value.name)}>
-													<div className="product-name">
-														{value.name}
-													</div>
-													<div className="product-brand">
-														{value.brand}
-													</div>
-													<div className="product-price">
-														{value.currency_code} {value.final_price}
-													</div>
-												</Link>
-											</div>
-										</div>
-									})}
-									<div className="col-12 clearfix">
-										<hr />
-										<div className="d-flex justify-content-center">
-											<nav aria-label="Page navigation example">
-												<ReactPaginate
-													previousLabel={'previous'}
-													nextLabel={'next'}
-													breakLabel={'...'}
-													breakClassName={'break-me'}
-													pageCount={this.state.total_pages}
-													marginPagesDisplayed={2}
-													pageRangeDisplayed={5}
-													onPageChange={this.handlePageClick.bind(this)}
-													containerClassName={'pagination'}
-													subContainerClassName={'pages pagination'}
-													activeClassName={'active'}
-													pageClassName={'page-item'}
-													pageLinkClassName={'page-link'}
-													previousClassName={'page-link'}
-													nextClassName={'page-link'}
-													hrefBuilder={this.buildPaginateHref}
-												/>
-											</nav>
 										</div>
 									</div>
 								</div>

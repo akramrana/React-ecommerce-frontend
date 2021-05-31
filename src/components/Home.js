@@ -11,6 +11,7 @@ import DB from '../helpers/DB';
 import CartService from '../services/CartService';
 import LoginService from '../services/LoginService';
 import { Link } from "react-router-dom";
+import CategoryLeft from '../components/CategoryLeft';
 
 
 class Home extends Component {
@@ -162,21 +163,28 @@ class Home extends Component {
 		return (
 			<div>
 				{this.renderHeader()}
-				<div id="content" className="container">
-					<div className="row">
-						{this.state.banners.map((value, index) => {
-							return <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12" key={index}>
-								<h3>{value.name}</h3>
-								<Link to={this.renderHrefUrl(value.id, value.name, value.link_type, value.link_id, value.url)}>
-									<img className="img-fluid" src={value.image} alt={value.name} />
-								</Link>
+				<div id="content" className="container-fluid">
+				    <div className="row">
+				         <div className="col-3">
+				            <CategoryLeft />
+				         </div>
+				         <div className="col-9">
+					         <div className="row">
+								{this.state.banners.map((value, index) => {
+									return <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12" key={index}>
+										<h3>{value.name}</h3>
+										<Link to={this.renderHrefUrl(value.id, value.name, value.link_type, value.link_id, value.url)}>
+											<img className="img-fluid" src={value.image} alt={value.name} />
+										</Link>
+									</div>
+								})}
 							</div>
-						})}
-					</div>
 
-					{this.renderNewArrivalSlider()}
+							{this.renderNewArrivalSlider()}
 
-					{this.renderShopSlider()}
+							{this.renderShopSlider()}
+				         </div>
+				    </div>
 				</div>
 				<Footer />;
 			</div>

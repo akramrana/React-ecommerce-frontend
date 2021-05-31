@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 class Footer extends React.Component {
 	render(){
 		return(
-			<div className="container">
+			<div className="container-fluid">
 			  <footer className="pt-4 my-md-5 pt-md-5 border-top">
 			    <div className="row">
 			      

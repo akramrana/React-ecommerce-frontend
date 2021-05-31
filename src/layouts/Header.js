@@ -129,8 +129,7 @@ class Header extends React.Component {
 					  </div>
 				</div>
 				<div className="d-flex flex-column flex-md-row  p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
-				  <Category />
-				  <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
+				  <div className="col-12">
 				      <div className="row float-right">
 						  <div className="my-2 my-md-0 mr-md-3">
 						      <Link to="/cart">

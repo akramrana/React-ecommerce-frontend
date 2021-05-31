@@ -125,3 +125,14 @@ ul.product-filters li .filter-att,.filter-att{
 .bg-light .navbar-nav{
   padding-left: 10px;
 }
+.nav-link[data-toggle].collapsed:after {
+    content: " ▾";
+}
+.nav-link[data-toggle]:not(.collapsed):after {
+    content: " ▴";
+}
+
+.nav-link{
+  line-height: 38px;
+  border-bottom: 1px solid #ddd;
+}

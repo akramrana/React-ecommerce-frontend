@@ -6,6 +6,7 @@ import Web from '../config/Web'
 import DB from '../helpers/DB';
 import CartService from '../services/CartService';
 import LoginService from '../services/LoginService';
+import CategoryLeft from '../components/CategoryLeft';
 
 class Cms extends Component {
 
@@ -87,10 +88,17 @@ class Cms extends Component {
 		return (
 			<div>
 				{this.renderHeader()}
-				<div className="container">
-					<div className="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-justify">
-						<h1 className="display-4">{this.state.cms_info.page}</h1>
-						<p dangerouslySetInnerHTML={{ __html: this.state.cms_info.content }} />
+				<div className="container-fluid">
+					<div className="row">
+						<div className="col-3">
+							<CategoryLeft />
+						</div>
+						<div className="col-9">
+							<div className="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-justify">
+								<h1 className="display-4">{this.state.cms_info.page}</h1>
+								<p dangerouslySetInnerHTML={{ __html: this.state.cms_info.content }} />
+							</div>
+						</div>
 					</div>
 				</div>
 				<Footer />

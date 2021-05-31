@@ -7,7 +7,7 @@ import DB from '../helpers/DB';
 import LoginService from '../services/LoginService';
 import CartService from '../services/CartService';
 import UserLeftMenu from './UserLeftMenu';
-
+import CategoryLeft from '../components/CategoryLeft';
 class OrderDetails extends Component {
 
 	constructor(props) {
@@ -118,117 +118,124 @@ class OrderDetails extends Component {
 		return (
 			<div>
 				{this.renderHeader()}
-				<div id="content" className="container">
-					<div className="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-						<div className="pb-5">
-							<h1 className="display-4">Order #{this.state.orderDetails.order_number}</h1>
+				<div id="content" className="container-fluid">
+					<div className="row">
+						<div className="col-3">
+							<CategoryLeft />
 						</div>
-						<div className="row">
-							<UserLeftMenu/>
-							<div className="col-xl-9 col-lg-9 col-md-9 col-sm-12 col-12 text-left">
-								<div className="row">
-									<div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 text-left">
-										<h3><u>Order Information</u></h3>
-										<p><b>Order Date:</b> {this.state.orderDetails.created_date}</p>
-										<p><b>Order Number:</b> {this.state.orderDetails.order_number}</p>
-										<p><b>Payment Method:</b> {this.getPaymodeName(this.state.orderDetails.payment_mode)}</p>
-										<p><b>Delivery Method:</b> {this.getDeliveryOptionName(this.state.orderDetails.delivery_option_id)}</p>
-									</div>
+						<div className="col-9">
+							<div className="pricing-header px-3 py-3 pb-md-4 mx-auto text-center">
+								<div className="pb-5">
+									<h1 className="display-4">Order #{this.state.orderDetails.order_number}</h1>
 								</div>
 								<div className="row">
-									<div className="col-12 text-left mt-3">
-										<h3><u>Items Ordered</u></h3>
-										<table className="table table-bordered">
-											<thead>
-												<tr>
-													<th>#</th>
-													<th>Item</th>
-													<th>Price</th>
-													<th>Quantity</th>
-													<th>Total</th>
-												</tr>
-												{this.state.items.map((value, index) => {
-													let subtotal = (value.quantity * value.final_price).toFixed(3);
-													return (
-														<tr key={index}>
-															<td>{index + 1}</td>
-															<td>
-																<img style={{ width: "98px" }} src={value.image} />
-																<br />
-																{value.name}<br />
-																{value.configurable_option.map((v, i) => {
-																	return (
-																		<span key={i}>
-																			<b>{v.type} :</b>
-																			{v.attributes.map((vv, ii) => {
-																				return (
-																					<span key={ii}> {vv.value}</span>
-																				)
-																			})}
-																			<br />
-																		</span>
-																	)
-																})}
-															</td>
-															<td>{value.currency_code} {value.final_price}</td>
-															<td>{value.quantity}</td>
-															<td>{value.currency_code} {subtotal}</td>
+									<UserLeftMenu />
+									<div className="col-xl-9 col-lg-9 col-md-9 col-sm-12 col-12 text-left">
+										<div className="row">
+											<div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 text-left">
+												<h3><u>Order Information</u></h3>
+												<p><b>Order Date:</b> {this.state.orderDetails.created_date}</p>
+												<p><b>Order Number:</b> {this.state.orderDetails.order_number}</p>
+												<p><b>Payment Method:</b> {this.getPaymodeName(this.state.orderDetails.payment_mode)}</p>
+												<p><b>Delivery Method:</b> {this.getDeliveryOptionName(this.state.orderDetails.delivery_option_id)}</p>
+											</div>
+										</div>
+										<div className="row">
+											<div className="col-12 text-left mt-3">
+												<h3><u>Items Ordered</u></h3>
+												<table className="table table-bordered">
+													<thead>
+														<tr>
+															<th>#</th>
+															<th>Item</th>
+															<th>Price</th>
+															<th>Quantity</th>
+															<th>Total</th>
 														</tr>
-													)
-												})}
-												<tr>
-													<td>&nbsp;</td>
-													<td>&nbsp;</td>
-													<td>Order Total</td>
-													<td>&nbsp;</td>
-													<td>{this.state.orderDetails.baseCurrencyName} {this.state.orderDetails.sub_total}</td>
-												</tr>
-												<tr>
-													<td>&nbsp;</td>
-													<td>&nbsp;</td>
-													<td>Discount</td>
-													<td>&nbsp;</td>
-													<td>{this.state.orderDetails.baseCurrencyName} {this.state.orderDetails.discount_price}</td>
-												</tr>
-												<tr>
-													<td>&nbsp;</td>
-													<td>&nbsp;</td>
-													<td>Shipping Cost</td>
-													<td>&nbsp;</td>
-													<td>{this.state.orderDetails.baseCurrencyName} {this.state.orderDetails.delivery_charges}</td>
-												</tr>
-												<tr>
-													<td>&nbsp;</td>
-													<td>&nbsp;</td>
-													<td>Cash on Delivery Cost</td>
-													<td>&nbsp;</td>
-													<td>{this.state.orderDetails.baseCurrencyName} {this.state.orderDetails.cod_cost}</td>
-												</tr>
-												<tr>
-													<td>&nbsp;</td>
-													<td>&nbsp;</td>
-													<td>Grand Total</td>
-													<td>&nbsp;</td>
-													<td>{this.state.orderDetails.baseCurrencyName} {this.state.orderDetails.total}</td>
-												</tr>
-											</thead>
-										</table>
-									</div>
-								</div>
-								<div className="row">
-									<div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 text-left">
-										<h3><u>Shipping Information</u></h3>
-										<p><b>Name:</b> {this.state.userAddress.first_name}</p>
-										<p><b>Governorate:</b> {this.state.userAddress.governorate_name} <b>Area:</b> {this.state.userAddress.area_name}</p>
-										<p><b>Block:</b> {this.state.userAddress.block_name} <b>Street:</b> {this.state.userAddress.street}</p>
-										<p><b>Address:</b> {this.state.userAddress.addressline_1}</p>
-										<p><b>Phone:</b> {this.state.userAddress.mobile_number}</p>
-									</div>
-								</div>
-								<div className="row">
-									<div className="col-12 text-left mt-3">
-										<h3><u>Order Status</u></h3>
-										<p style={{ background: this.state.orderDetails.status_color, padding: "5px", color: "#FFF" }}>{this.state.orderDetails.status}</p>
+														{this.state.items.map((value, index) => {
+															let subtotal = (value.quantity * value.final_price).toFixed(3);
+															return (
+																<tr key={index}>
+																	<td>{index + 1}</td>
+																	<td>
+																		<img style={{ width: "98px" }} src={value.image} />
+																		<br />
+																		{value.name}<br />
+																		{value.configurable_option.map((v, i) => {
+																			return (
+																				<span key={i}>
+																					<b>{v.type} :</b>
+																					{v.attributes.map((vv, ii) => {
+																						return (
+																							<span key={ii}> {vv.value}</span>
+																						)
+																					})}
+																					<br />
+																				</span>
+																			)
+																		})}
+																	</td>
+																	<td>{value.currency_code} {value.final_price}</td>
+																	<td>{value.quantity}</td>
+																	<td>{value.currency_code} {subtotal}</td>
+																</tr>
+															)
+														})}
+														<tr>
+															<td>&nbsp;</td>
+															<td>&nbsp;</td>
+															<td>Order Total</td>
+															<td>&nbsp;</td>
+															<td>{this.state.orderDetails.baseCurrencyName} {this.state.orderDetails.sub_total}</td>
+														</tr>
+														<tr>
+															<td>&nbsp;</td>
+															<td>&nbsp;</td>
+															<td>Discount</td>
+															<td>&nbsp;</td>
+															<td>{this.state.orderDetails.baseCurrencyName} {this.state.orderDetails.discount_price}</td>
+														</tr>
+														<tr>
+															<td>&nbsp;</td>
+															<td>&nbsp;</td>
+															<td>Shipping Cost</td>
+															<td>&nbsp;</td>
+															<td>{this.state.orderDetails.baseCurrencyName} {this.state.orderDetails.delivery_charges}</td>
+														</tr>
+														<tr>
+															<td>&nbsp;</td>
+															<td>&nbsp;</td>
+															<td>Cash on Delivery Cost</td>
+															<td>&nbsp;</td>
+															<td>{this.state.orderDetails.baseCurrencyName} {this.state.orderDetails.cod_cost}</td>
+														</tr>
+														<tr>
+															<td>&nbsp;</td>
+															<td>&nbsp;</td>
+															<td>Grand Total</td>
+															<td>&nbsp;</td>
+															<td>{this.state.orderDetails.baseCurrencyName} {this.state.orderDetails.total}</td>
+														</tr>
+													</thead>
+												</table>
+											</div>
+										</div>
+										<div className="row">
+											<div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 text-left">
+												<h3><u>Shipping Information</u></h3>
+												<p><b>Name:</b> {this.state.userAddress.first_name}</p>
+												<p><b>Governorate:</b> {this.state.userAddress.governorate_name} <b>Area:</b> {this.state.userAddress.area_name}</p>
+												<p><b>Block:</b> {this.state.userAddress.block_name} <b>Street:</b> {this.state.userAddress.street}</p>
+												<p><b>Address:</b> {this.state.userAddress.addressline_1}</p>
+												<p><b>Phone:</b> {this.state.userAddress.mobile_number}</p>
+											</div>
+										</div>
+										<div className="row">
+											<div className="col-12 text-left mt-3">
+												<h3><u>Order Status</u></h3>
+												<p style={{ background: this.state.orderDetails.status_color, padding: "5px", color: "#FFF" }}>{this.state.orderDetails.status}</p>
+											</div>
+										</div>
 									</div>
 								</div>
 							</div>

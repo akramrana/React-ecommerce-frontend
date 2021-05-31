@@ -16,20 +16,10 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-src/.jshintrc
-src/index.js
-src/components/Cart.js
-src/components/Categories.js
-src/components/ChangePassword.js
-src/components/Cms.js
-src/components/Home.js
-src/components/MyAccount.js
-src/components/MyAddress.js
-src/components/OrderDetails.js
-src/components/Products.js
-src/components/Profile.js
-src/components/UserLeftMenu.js
-src/components/Wishlist.js
-src/layouts/Footer.js
-src/layouts/Header.js
+nbproject/project.properties
+package-lock.json
+nbproject/project.properties
+nbproject/private/private.xml
+nbproject/private/private.properties
+nbproject/project.xml
 nbproject/project.properties
